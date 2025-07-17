@@ -51,3 +51,6 @@ dump/
 
 cypress/screenshots/
 cypress/videos/
+
+package-lock.json
+*-report.html
