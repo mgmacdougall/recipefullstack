@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Test",
+        "ingredients": [
+            {
+                "name": "test",
+                "quantity": "2 cups"
+            }
+        ],
+        "instructions": "Instructions",
+        "prepTime": 10,
+        "cookTime": 30,
+        "tags": [
+            "test",
+            "test"
+        ]
+    }
+]
