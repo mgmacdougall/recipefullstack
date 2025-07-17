@@ -1,0 +1,14 @@
+.ing-container{
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.ing-card{
+    background-color: red;
+    width: 10em;
+    padding:10px;
+    border-radius: 5px;
+}

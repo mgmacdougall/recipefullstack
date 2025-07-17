@@ -1,0 +1,9 @@
+.recipe-container {
+    border: 1px solid red;
+    margin: 10px;
+}
+
+.recipe-card {
+    border: 1px solid blue;
+    margin: 20px;
+}
