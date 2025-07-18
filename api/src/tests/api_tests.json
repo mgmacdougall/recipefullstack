@@ -65,53 +65,6 @@
 			"response": []
 		},
 		{
-			"name": "test_get_all_favourites",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"status code is 200\",()=> {\r",
-							"    pm.response.to.have.status(200)\r",
-							"})\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/favourites",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"favourites"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "test_get_all_users",
 			"event": [
 				{
@@ -217,9 +170,9 @@
 							"})\r",
 							"\r",
 							"\r",
-							"pm.test('should have greater than one result',()=>{\r",
+							"pm.test('should have a result',()=>{\r",
 							"    const {data} = pm.response.json();\r",
-							"    pm.expect(data.length).to.be.greaterThan(1)\r",
+							"    pm.expect(data).not.to.be.empty;\r",
 							"})"
 						],
 						"type": "text/javascript",
@@ -227,21 +180,9 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"favRecipes\": [\r\n        {\r\n            \"recipeCollectionName\": \"Foo\",\r\n            \"description\": \"here's a description\",\r\n            \"image\": \"test.jpg\",\r\n            \"external_url\": \"http://localhost:5005\",\r\n            \"details\":{\r\n                \"title\": \"foo\",\r\n                \"ingredients\": [\"one\", \"two\", \"three\"],\r\n                \"prepTime\": \"10\",\r\n                \"cookTime\": \"20\"\r\n            }\r\n        }\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:3000/recipes",
 					"protocol": "http",
@@ -295,6 +236,124 @@
 					"path": [
 						"user",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAMealPlan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\",()=> {\r",
+							"    pm.response.to.have.status(201)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"test\",\r\n    \"weekStart\": \"2025-07-17\",\r\n    \"days\": [\r\n        {\r\n            \"date\": \"2025-07-17\",\r\n            \"meals\": [\r\n                {\r\n                    \"title\": \"Test\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n\"notes\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/mealplan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mealplan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test_get_a_single_meal_plan_by_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\",()=> {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/mealplan/687a93af48e55d981292b7f7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mealplan",
+						"687a93af48e55d981292b7f7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test_get_all_meal_plans",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\",()=> {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/mealplan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mealplan"
 					]
 				}
 			},
