@@ -7,7 +7,9 @@
     "test": "newman run ./src/tests/api_tests.json -r htmlextra --reporter-htmlextra-export ./src/tests/results/my-report.html",
     "dev": "nodemon --watch src --exec node src/index.js",
     "seed-recipe": "node ./src/utils/seeddata/seedRecipes.js",
-    "seed-users": "node ./src/utils/seeddata/seedUsers.js"
+    "seed-users": "node ./src/utils/seeddata/seedUsers.js",
+    "seed-favourites": "node ./src/utils/seeddata/seedFavourites.js",
+    "seed-mealplan": "node ./src/utils/seeddata/seedMealPlan.js"
   },
   "keywords": [],
   "author": "",
