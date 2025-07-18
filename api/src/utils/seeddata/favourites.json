@@ -1,0 +1,25 @@
+[
+    {
+        "recipeCollectionName": "foo",
+        "description": "this is a test",
+        "image": "test",
+        "external_url": "external",
+        "details": [
+            {
+                "title": "here",
+                "ingredients": [
+                    {
+                        "name": "here",
+                        "quantity": "here2"
+                    }
+                ],
+                "instructions": "foo instructions",
+                "prepTime": 10,
+                "cookTime": 20,
+                "tags": [
+                    "vegan"
+                ]
+            }
+        ]
+    }
+]

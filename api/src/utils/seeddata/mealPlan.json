@@ -1,0 +1,15 @@
+{
+    "user": "test",
+    "weekStart": "2025-07-17",
+    "days": [
+        {
+            "date": "2025-07-17",
+            "meals": [
+                {
+                    "title": "Test"
+                }
+            ]
+        }
+    ],
+"notes": "test"
+}
