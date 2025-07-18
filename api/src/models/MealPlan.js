@@ -1,10 +1,8 @@
-// models/MealPlan.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const mealPlanSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // links to the User model
+    type: String,
     required: true,
   },
   weekStart: {
@@ -14,11 +12,13 @@ const mealPlanSchema = new mongoose.Schema({
   days: [
     {
       date: { type: Date, required: true },
-      meals: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Recipe', // links to your Recipe model
+      meals: [{
+
+        title: {
+          type: String,
+          required: false
         },
+      }
       ],
     },
   ],
@@ -32,4 +32,5 @@ const mealPlanSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('MealPlan', mealPlanSchema);
+const MealPlan = mongoose.model('MealPlan', mealPlanSchema);
+export default MealPlan;
