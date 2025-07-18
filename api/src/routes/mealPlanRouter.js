@@ -8,4 +8,13 @@ router.post('/', (req, res) => {
     mealPlanController.saveMealPlan(req, res);
 });
 
+router.get('/', (req, res) => {
+    logger.info('Received a GET request on /mealplan');
+    mealPlanController.getAllMealPlans(req, res);
+});
+
+router.get('/:id', (req, res) => {
+    logger.info('Received a GET request on /mealplan');
+    mealPlanController.getMealPlanById(req, res);
+});
 export default router;
