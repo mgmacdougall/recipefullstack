@@ -4,28 +4,38 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "newman run ./src/tests/api_tests.json -r htmlextra --reporter-htmlextra-export ./src/tests/results/my-report.html",
+    "api-test": "newman run ./src/tests/api_tests.json -r htmlextra --reporter-htmlextra-export ./src/tests/results/my-report.html",
     "dev": "nodemon --watch src --exec node src/index.js",
     "seed-recipe": "node ./src/utils/seeddata/seedRecipes.js",
     "seed-users": "node ./src/utils/seeddata/seedUsers.js",
     "seed-favourites": "node ./src/utils/seeddata/seedFavourites.js",
-    "seed-mealplan": "node ./src/utils/seeddata/seedMealPlan.js"
+    "seed-mealplan": "node ./src/utils/seeddata/seedMealPlan.js",
+    "unit-test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "mongoose": "^8.16.1",
     "morgan": "^1.10.0",
-    "newman": "^6.2.1",
+    "newman": "^6.2.0",
     "newman-reporter-htmlextra": "^1.23.1",
+    "openai": "^5.12.2",
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.5",
+    "jest": "^30.0.5",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.3"
   }
 }
