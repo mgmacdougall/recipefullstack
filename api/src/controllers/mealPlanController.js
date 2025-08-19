@@ -1,10 +1,20 @@
 import MealPlan from '../models/MealPlan.js'
 import logger from '../utils/logger.js';
+
 const saveMealPlan = async (req, res) => {
     try {
         const mealPlan = req.body; // Assuming the meal plan is sent in the request body
+        const { id } = req.params;
+
+        if (!mealPlan || !id) {
+            return res.status(400).json({ message: 'Meal plan or user ID is missing' });
+        }
+        logger.info(`Saving meal plan for user ID: ${id}`);
+        mealPlan.user = id; // Associate the meal plan with the user ID
+
         mealPlan.weekStart = new Date(mealPlan.weekStart)
         mealPlan.days[0].date = new Date(mealPlan.days[0].date)
+        console.log(mealPlan)
         const userMealPlan = new MealPlan(mealPlan)
         await userMealPlan.save(mealPlan)
         res.status(201).json({ message: 'Meal plan saved successfully', mealPlan });
