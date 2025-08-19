@@ -70,10 +70,14 @@ Phase 3: Backend APIs (Express + MongoDB)
 - MealPlan (✅)
 - Middleware:
 - Auth (JWT) needs to be done
-- Logging & rate limiting Logging (Winsot (✅)) rate limit not done
+    -- routes created, for register/login/logout using bcrypt, session(✅)
+        -- added to controller, and secret read from dotenv (✅)
+    -- TO DO: Need to add session information to the routes 
+    -- TODO: Add tests for the data.
+- Logging & rate limiting Logging (Winston (✅)) rate limit not done
 - Mongo:
-    - db connection 
-    - models 
+    - db connection  (✅)
+    - models (✅)
     - favourites:
         - getFavourite, setFavourite, getFavourite by mongo id.
 - Tests Included:
@@ -85,7 +89,7 @@ Phase 3: Backend APIs (Express + MongoDB)
     
 Phase 4: AI Integration
 - Text AI:
-- GPT-powered cooking advice and trivia
+- GPT-powered cooking advice and trivia in progress - need to get $ for calls currently does not work.
 - Substitution logic for missing ingredients
 - Image AI:
 - Generate dish visuals using text-to-image APIs
