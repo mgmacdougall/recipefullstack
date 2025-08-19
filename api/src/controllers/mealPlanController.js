@@ -32,11 +32,11 @@ const getMealPlanById = async (req, res) => {
     try {
         const result = await MealPlan.findById(id);
         if (!result) {
-            res.status(400).send({ "message": "No meal plan found" })
+           return res.status(400).send({ "message": "No meal plan found" })
         }
-        res.send(result)
+        return res.send(result)
     } catch (e) {
-        res.message({ "message": e.message })
+        return res.send({ "message": e.message })
     }
 
 
