@@ -19,4 +19,17 @@ userRouter.delete("/delete/:id", async (req, res) => {
     userController.deleteOneUserById(req, res);
 })
 
+userRouter.post('/register', async (req, res) => {
+    userController.registerUser(req, res);
+})
+
+userRouter.post('/login', async (req, res) => {
+    userController.logInUser(req, res);
+})
+
+userRouter.post('/logout', async (req, res) => {
+    userController.logoutUser(req, res);
+});
+
+
 export default userRouter;
