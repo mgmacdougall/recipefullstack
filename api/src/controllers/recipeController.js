@@ -1,5 +1,10 @@
 import { Recipe } from '../models/Recipe.js'
+import dotenv from 'dotenv';
+dotenv.config();
 
+import OpenAI from 'openai';
+
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 const getAllRecipes = async (req, res) => {
     console.log('Received a GET request on /recipes');
@@ -35,6 +40,44 @@ const getOneRecipeAndDelete = async (req, res) => {
     }
 }
 
+const addNewRecipe = async (req, res) => {
+    try {
+        const recipeDetails = req.body; // Assuming the meal plan is sent in the request body   
+
+        if (recipeDetails) {
+            let newRecipe = new Recipe(recipeDetails)
+            await newRecipe.save()
+            return res.status(201).json({ message: 'Recipe saved successfully', newRecipe });
+        } else {
+            //throw new Error({message: "Error"})
+            return res.status(500).json({ message: "error" });
+        }           
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message });
+    }   
+}
+
+// not functional yet
+// This function is intended to provide recipe suggestions based on user input using OpenAI's API
+const getSuggestion = async (req, res) => {
+    const { prompt } = req.body;
+    try {
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [
+                { role: 'system', content: 'You are a helpful assistant.' },
+                { role: 'user', content: prompt },
+            ],
+        });
+
+        res.json({ result: completion.choices[0].message.content });
+    } catch (err) {
+        console.error('OpenAI error:', err);
+        res.status(500).json({ error: 'Failed to generate response' });
+    }
+}
+
 export default {
-    getAllRecipes, getSingleRecipeById, getOneRecipeAndDelete
+    getAllRecipes, getSingleRecipeById, getOneRecipeAndDelete, getSuggestion, addNewRecipe
 }
