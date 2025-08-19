@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const mealPlanSchema = new mongoose.Schema({
   user: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
   weekStart: {
@@ -13,7 +14,6 @@ const mealPlanSchema = new mongoose.Schema({
     {
       date: { type: Date, required: true },
       meals: [{
-
         title: {
           type: String,
           required: false
