@@ -34,8 +34,9 @@ Phase 2: Frontend Development
 - Home (Home page) (✅)
 - Search results (Recipes page) (✅)
 - Substitution tips (TODO)
-- Meal Planner (almost) -> this is almost done input form complete, and list on ingredients done - back end call not done for getting recipes based on input values
+- Meal Planner (done  - can update db on the backend) -> this is almost done input form complete, and list on ingredients done - back end call not done for getting recipes based on input values
 - Favorites (RecipeBox page)(✅)
+- User can create recipes and update database (REcipe Page page)(partially done - have form updates done.)
 - UI Components:
 - IngredientInput.js – input ingredients ((✅) IngredientInput)
 - RecipeCard.js – show recipe + image (RecipeCard.jsx) (✅)
