@@ -15,7 +15,7 @@ function RecipeCard({ data }) {
                         <h3 className='text-base text-3xl font-serif font-bold'>Ingredients:</h3>
                         <ul>
                             {recipe.ingredients.map(ingredient => <li key={ingredient._id} >{ingredient.name} {ingredient.quantity}</li>)}
-                        </ul>
+                        </ul>         
                     </div>
                 ))
             }
