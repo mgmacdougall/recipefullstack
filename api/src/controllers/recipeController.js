@@ -78,6 +78,25 @@ const getSuggestion = async (req, res) => {
     }
 }
 
+const setFavouriteRecipe = async (req, res) => {
+    const { id } = req.params;  
+
+    try {
+        const recipe = await Recipe.findById(id.trim());
+        console.log(recipe)
+        if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+        }
+
+        recipe.favourite = !recipe.favourite; // Toggle the favourite status
+        await recipe.save();
+
+        return res.json({ message: `Recipe ${recipe.favourite ? 'added to' : 'removed from'} favourites`, recipe });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}
+
 export default {
-    getAllRecipes, getSingleRecipeById, getOneRecipeAndDelete, getSuggestion, addNewRecipe
+    getAllRecipes, getSingleRecipeById, getOneRecipeAndDelete, getSuggestion, addNewRecipe, setFavouriteRecipe
 }
