@@ -29,6 +29,10 @@ const recipeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  favourite: {
+    type: Boolean,
+    default: false,
+  },
 });
 const Recipe = mongoose.model('Recipe', recipeSchema);
 export {
