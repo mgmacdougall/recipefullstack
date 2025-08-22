@@ -11,6 +11,9 @@
     "test": "npx cypress run --headed --browser chrome && npx mochawesome-merge cypress/reports/*.json > mochawesome.json"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^3.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
