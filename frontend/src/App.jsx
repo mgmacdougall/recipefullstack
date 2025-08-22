@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+
 import './App.css'
 
 import Home from './pages/Home'
@@ -111,11 +112,39 @@ function App() {
   };
 
 
+  const favouriteRecipeHandler = (e) => {
+    const { id } = e.target.dataset;
+    fetch(`http://localhost:3000/recipes/favourite/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ favourite: true }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        const{ recipe } = data;
+  
+        setRecipes(prevRecipes  => {
+          console.log('Previous Recipes:', prevRecipes);
+          const updated = prevRecipes.map(r => r._id === recipe._id ? recipe : r);
+          console.log('Updated Recipes:', updated);
+          
+          return updated;
+        })
+      })
+  
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+   
+
+  };
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<Recipes data={recipes} isVisible={isRecipeFormVisible} formVisibleHandler={toggleRecipeForm} recipeFormTitleChangeHandler={handleRecipeTitleChange} recipeTitleData={recipeTitle} handleQuantityChangeHandler={handleQuantityChange} quantityData={quantity} handleIngredientChange={handleIngredientChange} ingredientData={recipeIngredient} instructionsHandler={handleInstructionsChange} instructionsData={instructions} handleRecipeFormSubmit={handleRecipeFormSubmit} />} />
+        <Route path="/recipes" element={<Recipes data={recipes} isVisible={isRecipeFormVisible} formVisibleHandler={toggleRecipeForm} recipeFormTitleChangeHandler={handleRecipeTitleChange} recipeTitleData={recipeTitle} handleQuantityChangeHandler={handleQuantityChange} quantityData={quantity} handleIngredientChange={handleIngredientChange} ingredientData={recipeIngredient} instructionsHandler={handleInstructionsChange} instructionsData={instructions} handleRecipeFormSubmit={handleRecipeFormSubmit} recipeFavouriteHandler={favouriteRecipeHandler} />} />
         <Route path="/recipe-box" element={<RecipeBox />} />
         <Route path="/meal-planner" element={<MealPlanner handler={IngredientInputHandler} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} />} />
         <Route path="/about" element={<About />} />
