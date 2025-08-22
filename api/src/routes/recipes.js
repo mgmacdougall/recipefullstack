@@ -27,4 +27,9 @@ router.post('/suggestion', async (req, res) => {
     recipeController.getSuggestion(req, res);
 })
 
+router.post('/favourite/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    recipeController.setFavouriteRecipe(req, res);
+})
 export default router;
