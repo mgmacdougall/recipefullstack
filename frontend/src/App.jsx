@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-
+import { logger } from './utils/logger'
 import './App.css'
 
 import Home from './pages/Home'
@@ -20,7 +20,7 @@ function App() {
   const [quantity, setQuantity] = useState('');
   const [recipeIngredient, setRecipeIngredient] = useState('');
   const [instructions, setRecipeInstructionss] = useState('');
-
+ 
 
   // Fetch recipes from the backend
   // Use useEffect to run the fetch when the component mounts
@@ -35,15 +35,15 @@ function App() {
       .then(data => {
         setRecipes(data.data);
       })
-      .catch(error => console.error('Error fetching recipes:', error))
+      .catch(error => logger.error('Error fetching recipes:', error))
   }, [])
 
   const IngredientInputHandler = e => setInputString(e.target.value)
   const IngredientsClickHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.elements.ingredient.value)
+    logger.info(e.target.elements.ingredient.value)
     setIngredients(prev => [...prev, e.target.elements.ingredient.value])
-    console.log(ingredients)
+    logger.info(ingredients)
   }
 
   const toggleRecipeForm = () => {
@@ -75,6 +75,11 @@ function App() {
     // You might also want to add validation and error handling here
     // For simplicity, we'll skip those steps in this example
     // Create a new recipe object
+    logger.info('Submitting recipe:', { recipeTitle, quantity, recipeIngredient, instructions });
+    if (!recipeTitle || !quantity || !instructions) {
+      logger.warn('Please fill in all required fields.');
+      return;
+    }
     const newRecipe = {
       title: recipeTitle,
       quantity: quantity,
@@ -94,11 +99,11 @@ function App() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Success:', data);
+        logger.info('Success:', data);
         setRecipes(prev => [...prev, data.newRecipe]);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       });
     // Here you would typically send the newRecipe to your backend API
     // For now, we'll just update the state to include the new recipe
@@ -126,16 +131,16 @@ function App() {
         const{ recipe } = data;
   
         setRecipes(prevRecipes  => {
-          console.log('Previous Recipes:', prevRecipes);
+          logger.info('Previous Recipes:', prevRecipes);
           const updated = prevRecipes.map(r => r._id === recipe._id ? recipe : r);
-          console.log('Updated Recipes:', updated);
+          logger.info('Updated Recipes:', updated);
           
           return updated;
         })
       })
   
       .catch((error) => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       });
    
 
