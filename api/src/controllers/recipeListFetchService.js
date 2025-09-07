@@ -1,16 +1,18 @@
 import axios from 'axios';
 
- const fetchMealByName = async (name = 'Arrabiata') => {
-  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(name)}`;
+ const fetchSingleRecipe = async (type = 'pasta') => {
+  const url = `https://api.spoonacular.com/recipes/complexSearch?query=pasta&number=1&apiKey=${process.env.SPOONTACULRAR_API_KEY}`;
   const response = await axios.get(url);
   return response.data.meals?.[0]; // return first match
 };
 
- const fetchRandomMeal = async () => {
-  const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
+ const fetchASIngleRandomRecipe = async () => {
+ //https://api.spoonacular.com/recipes/complexSearch?query=pizza&apiKey
+  const url = `https://api.spoonacular.com/recipes/random?number=1&apiKey=${process.env.SPOONTACULRAR_API_KEY}`;
   const response = await axios.get(url);
-  return response.data.meals?.[0];
+  console.log("response from fetchASIngleRandomRecipe", response.data)
+  return response.data;
 };
 
 
-export default { fetchMealByName, fetchRandomMeal };
+export { fetchSingleRecipe, fetchASIngleRandomRecipe };
