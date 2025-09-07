@@ -12,15 +12,21 @@ function App() {
   const [recipes, setRecipes] = useState([])
 
   const [ingredients, setIngredients] = useState([])
-  const [inputString, setInputString] = useState("")
-  const [isRecipeFormVisible, setIsRecipeFormVisible] = useState(false)
 
+  const [inputString, setInputString] = useState("")
+ 
+
+
+  const [isRecipeFormVisible, setIsRecipeFormVisible] = useState(false)
 
   const [recipeTitle, setRecipeTitle] = useState('');
   const [quantity, setQuantity] = useState('');
+
   const [recipeIngredient, setRecipeIngredient] = useState('');
+
   const [instructions, setRecipeInstructionss] = useState('');
- 
+
+  cosnt [recipeListItemIngriedents, setRecipeListItemIngriedents] = useState({ingredients:[]});
 
   // Fetch recipes from the backend
   // Use useEffect to run the fetch when the component mounts
@@ -38,12 +44,17 @@ function App() {
       .catch(error => logger.error('Error fetching recipes:', error))
   }, [])
 
-  const IngredientInputHandler = e => setInputString(e.target.value)
-  const IngredientsClickHandler = (e) => {
+  const handleClear = () => {
+    setInputString(''); // Clear the input
+  };
+
+ 
+  const IngredientInputHandler = e => { setInputString(e.target.value);  }
+
+  const IngredientsClickHandler = (e, value) => {
     e.preventDefault();
-    logger.info(e.target.elements.ingredient.value)
-    setIngredients(prev => [...prev, e.target.elements.ingredient.value])
-    logger.info(ingredients)
+    setIngredients(prev => [...prev, value])
+    handleClear();
   }
 
   const toggleRecipeForm = () => {
@@ -117,6 +128,7 @@ function App() {
   };
 
 
+
   const favouriteRecipeHandler = (e) => {
     const { id } = e.target.dataset;
     fetch(`http://localhost:3000/recipes/favourite/${id}`, {
@@ -128,21 +140,21 @@ function App() {
     })
       .then(response => response.json())
       .then(data => {
-        const{ recipe } = data;
-  
-        setRecipes(prevRecipes  => {
+        const { recipe } = data;
+
+        setRecipes(prevRecipes => {
           logger.info('Previous Recipes:', prevRecipes);
           const updated = prevRecipes.map(r => r._id === recipe._id ? recipe : r);
           logger.info('Updated Recipes:', updated);
-          
+
           return updated;
         })
       })
-  
+
       .catch((error) => {
         logger.error('Error:', error);
       });
-   
+
 
   };
   return (
@@ -151,7 +163,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/recipes" element={<Recipes data={recipes} isVisible={isRecipeFormVisible} formVisibleHandler={toggleRecipeForm} recipeFormTitleChangeHandler={handleRecipeTitleChange} recipeTitleData={recipeTitle} handleQuantityChangeHandler={handleQuantityChange} quantityData={quantity} handleIngredientChange={handleIngredientChange} ingredientData={recipeIngredient} instructionsHandler={handleInstructionsChange} instructionsData={instructions} handleRecipeFormSubmit={handleRecipeFormSubmit} recipeFavouriteHandler={favouriteRecipeHandler} />} />
         <Route path="/recipe-box" element={<RecipeBox />} />
-        <Route path="/meal-planner" element={<MealPlanner handler={IngredientInputHandler} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} />} />
+        <Route path="/meal-planner" element={<MealPlanner onDebouncedChange={setRecipeIngredient} handler={IngredientInputHandler} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} />} />
         <Route path="/about" element={<About />} />
       </Routes>
 
