@@ -3,7 +3,6 @@ import RecipeCard from '../components/RecipeCard'
 import NavBar from '../components/NavBar'
 import RecipeForm from '../components/RecipeForm'
 function Recipes({ data, isVisible, formVisibleHandler, recipeFormTitleChangeHandler, recipeTitleData, handleQuantityChangeHandler, quantityData, handleIngredientChange, ingredientData, instructionsHandler, instructionsData , handleRecipeFormSubmit, recipeFavouriteHandler}) {
-    console.log('data.length:', data);
     return (
         <div>
             <NavBar />
