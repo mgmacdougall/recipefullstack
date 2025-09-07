@@ -34,7 +34,7 @@ app.use('/recipes', router);
 app.use('/mealplan', mealPlanRouter); // Use the meal plan controller for handling meal plan routes
 app.use('/substitutes', substituteRouter); // Uncomment this line to enable the substitute route
 app.use('/favourites', favouritesRouter)
-app.use('/recipelist', recipeListRouter);
+app.use('/recipelist', recipeListRouter); // recipe list router to interact with spoontacular api.
 app.use('/user',userRouter);
 app.listen(PORT, () => {
   logger.info(`Server is running on http://localhost:${PORT}`);
