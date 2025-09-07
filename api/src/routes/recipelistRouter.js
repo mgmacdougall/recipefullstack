@@ -18,25 +18,18 @@ recipeListRouter.get('/', async (req, res) => {
     if (process.env.ENV_TYPE === "PROD") {
         logger.info('in prod section on  /recipelist');
         let tempResult = await recipeListController.getNewRecipeList(req, res);
-        logger.log(tempResult);
-        _data = tempResult.data;
-        console.log(">>", _data);
-
+        _data = tempResult.recipes;
         if (_data) {
             logger.info('Successfully retrieved recipe list');
-            console.log(_data);
             return res.status(200).json(_data);
         } else {
             logger.error('Failed to retrieve recipe list');
-            console.log(_data);
             return res.status(500).json({ error: 'Failed to retrieve recipe list' });
         }
 
     }
 
     return res.send(_data)
-
-
 });
 
 
