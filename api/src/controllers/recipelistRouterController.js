@@ -1,5 +1,6 @@
 import logger from '../utils/logger.js';
 import axios from 'axios';
+import {fetchSingleRecipe, fetchASIngleRandomRecipe} from '../controllers/recipeListFetchService.js';
 
 const getNewRecipeList = async (req, res) => {
     try {
@@ -9,9 +10,9 @@ const getNewRecipeList = async (req, res) => {
             throw new Error('Spoonacular API key is not set in environment variables');
         }else {
             logger.info('Spoonacular API key found');
-            //https://api.spoonacular.com/recipes/complexSearch?query=pizza&apiKey=
             try{
-               const response =  await axios.get('https://api.spoonacular.com/recipes/findByIngredients?ingredients=apples,+flour,+sugar&number=2&apiKey=' + apiKey)
+                const response =  await fetchASIngleRandomRecipe();
+                console.log("response from spoontacular api count", response.recipes.length)
                 return response;
             }catch(error){
                 logger.error('Error fetching data from Spoonacular API:', error);
