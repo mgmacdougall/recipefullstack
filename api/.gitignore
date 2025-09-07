@@ -54,3 +54,4 @@ cypress/videos/
 
 package-lock.json
 *-report.html
+*/temp/*
