@@ -3,9 +3,10 @@ import RecipeCard from '../components/RecipeCard'
 import NavBar from '../components/NavBar'
 import RecipeForm from '../components/RecipeForm'
 function Recipes({ data, updateRecipes, handleRecipeFormSubmit }) {
-    const [recipes, setRecipes] = useState([])
 
     useEffect(() => {
+        console.log('Recipes data prop:', data);
+        console.log('Recipes data length prop:', data.length);
 
         let ignore = false;
         fetch(`http://localhost:3000/recipes?_=${Date.now()}`, {
@@ -13,15 +14,17 @@ function Recipes({ data, updateRecipes, handleRecipeFormSubmit }) {
             cache: 'no-store' // or 'no-cache'
         })
             .then(response => response.json())
-            .then(data => {
-                console.log('Fetched recipes:', { data });
-                if (!ignore) setRecipes(data.data);
-                console.log("Data", { data })
-                updateRecipes(recipes);
+            .then(_data => {
+                console.log('Fetched recipes:', { _data });
+                if (!ignore) {
+                    updateRecipes(_data);
+                    // setRecipes(data.data);
+                }
+
             })
             .catch(error => logger.error('Error fetching recipes:', error))
         return () => { ignore = true; }
-    }, [])
+    }, [data])
 
     return (
         <div>
