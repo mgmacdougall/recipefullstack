@@ -7,7 +7,6 @@ import axios from 'axios';
 };
 
  const fetchASIngleRandomRecipe = async () => {
- //https://api.spoonacular.com/recipes/complexSearch?query=pizza&apiKey
   const url = `https://api.spoonacular.com/recipes/random?number=1&apiKey=${process.env.SPOONTACULRAR_API_KEY}`;
   const response = await axios.get(url);
   console.log("response from fetchASIngleRandomRecipe", response.data)
