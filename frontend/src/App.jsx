@@ -14,7 +14,7 @@ function App() {
   const [ingredients, setIngredients] = useState([])
 
   const [inputString, setInputString] = useState("")
- 
+
 
 
   const [isRecipeFormVisible, setIsRecipeFormVisible] = useState(false)
@@ -26,7 +26,7 @@ function App() {
 
   const [instructions, setRecipeInstructionss] = useState('');
 
-  cosnt [recipeListItemIngriedents, setRecipeListItemIngriedents] = useState({ingredients:[]});
+  const [recipeListItemIngriedents, setRecipeListItemIngriedents] = useState({ ingredients: [] });
 
   // Fetch recipes from the backend
   // Use useEffect to run the fetch when the component mounts
@@ -48,8 +48,8 @@ function App() {
     setInputString(''); // Clear the input
   };
 
- 
-  const IngredientInputHandler = e => { setInputString(e.target.value);  }
+
+  const IngredientInputHandler = e => { setInputString(e.target.value); }
 
   const IngredientsClickHandler = (e, value) => {
     e.preventDefault();
@@ -78,28 +78,22 @@ function App() {
     setRecipeInstructionss(e.target.value);
   }
 
-  const handleRecipeFormSubmit = (e) => {
-    e.preventDefault();
+  const handleRecipeFormSubmit = ({ title, instructions }) => {
+    console.log(data)
     // hardcoded values for prepTime, cookTime, servings, and image
     // In a real application, you would get these values from the form inputs
     // or generate them as needed
     // You might also want to add validation and error handling here
     // For simplicity, we'll skip those steps in this example
     // Create a new recipe object
-    logger.info('Submitting recipe:', { recipeTitle, quantity, recipeIngredient, instructions });
-    if (!recipeTitle || !quantity || !instructions) {
+    logger.info('Submitting recipe:', { title, instructions });
+    if (!title || !instructions) {
       logger.warn('Please fill in all required fields.');
       return;
     }
     const newRecipe = {
-      title: recipeTitle,
-      quantity: quantity,
-      ingredients: [{ name: "example", quantity: 2 }],
-      instructions: instructions,
-      prepTime: 30,
-      cookTime: 60,
-      servings: 4,
-      image: 'https://via.placeholder.com/150'
+      title: title,
+      instructions: instructions
     };
     fetch('http://localhost:3000/recipes/add', {
       method: 'POST',
@@ -127,8 +121,19 @@ function App() {
     setRecipeInstructionss('');
   };
 
+  const handleIngriendientListChange = (newIngredients) => {
+    setRecipeListItemIngriedents({ ingredients: newIngredients });
+    console.log('Updated ingredients:', recipeListItemIngriedents);
+  }
 
-
+  const handleIngridientListPageClickSearchHandler = ({ title, ingredients }) => {
+    e.preventDefault(title, ingredients);
+    console.log(e);
+    // Here you would typically send the newRecipe to your backend API
+    // For now, we'll just update the state to include the new recipe
+    // setIngredients(prev => [...prev, value])
+    // handleClear();
+  }
   const favouriteRecipeHandler = (e) => {
     const { id } = e.target.dataset;
     fetch(`http://localhost:3000/recipes/favourite/${id}`, {
@@ -163,7 +168,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/recipes" element={<Recipes data={recipes} isVisible={isRecipeFormVisible} formVisibleHandler={toggleRecipeForm} recipeFormTitleChangeHandler={handleRecipeTitleChange} recipeTitleData={recipeTitle} handleQuantityChangeHandler={handleQuantityChange} quantityData={quantity} handleIngredientChange={handleIngredientChange} ingredientData={recipeIngredient} instructionsHandler={handleInstructionsChange} instructionsData={instructions} handleRecipeFormSubmit={handleRecipeFormSubmit} recipeFavouriteHandler={favouriteRecipeHandler} />} />
         <Route path="/recipe-box" element={<RecipeBox />} />
-        <Route path="/meal-planner" element={<MealPlanner onDebouncedChange={setRecipeIngredient} handler={IngredientInputHandler} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} />} />
+        <Route path="/meal-planner" element={<MealPlanner onDebouncedChange={setRecipeIngredient} handler={IngredientInputHandler} ingredientListHandler={handleIngriendientListChange} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} ingriendientListClickHandler={handleIngridientListPageClickSearchHandler} />} />
         <Route path="/about" element={<About />} />
       </Routes>
 
