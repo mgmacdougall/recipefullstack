@@ -2,9 +2,9 @@ import React from 'react'
 import NavBar from '../components/NavBar'
 import IngredientInput from '../components/IngredientInput'
 import IngredientList from '../components/IngredientList'
-// import Substitution from '../components/Substitution'
+import IngredientListSearchButton from '../components/IngredientListSearchButton'
 
-function MealPlanner({data, inputString,handler,submitHandler, onDebouncedChange}) {
+function MealPlanner({data, inputString,handler,submitHandler, onDebouncedChange, ingredientListHandler, ingriendientListClickHandler}) {
     return (
         <div>
             <NavBar />
@@ -12,8 +12,9 @@ function MealPlanner({data, inputString,handler,submitHandler, onDebouncedChange
             <p className='text-base text-gray-700 leading-relaxed font-serif p-4'>Plan your next meal by entering a main ingredient</p>
             <IngredientInput onDebouncedChange={onDebouncedChange} inputData={data} inputHandler={handler} textVal={inputString} clickHandler={submitHandler}/>
             {data.length>0? <IngredientList listItems={data}/>: null}
-        
-            {/* <Substitution /> */}
+
+
+            {data.length>0? <IngredientListSearchButton buttonHandler={ingriendientListClickHandler}/>: null}
         </div>
     )
 }
