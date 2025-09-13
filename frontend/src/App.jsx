@@ -12,8 +12,8 @@ function App() {
   const [recipes, setRecipes] = useState([])
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const updateRecipes = (data) => {
-    setRecipes(data);
+  const updateRecipes = (newData) => {
+    setRecipes(newData.data);
     setRefreshKey(oldKey => oldKey + 1); // Increment the refresh key to trigger re-render
   }
 
@@ -36,7 +36,7 @@ function App() {
       .then(response => response.json())
       .then(data => {
         logger.info('Success:', data);
-        setRecipes(prev => [...prev, data.newRecipe]);
+        setRecipes(data);
       })
       .catch((error) => {
         logger.error('Error:', error);
