@@ -10,83 +10,14 @@ import RecipeBox from './pages/RecipeBox'
 import MealPlanner from './pages/MealPlanner'
 function App() {
   const [recipes, setRecipes] = useState([])
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const [ingredients, setIngredients] = useState([])
-
-  const [inputString, setInputString] = useState("")
-
-
-
-  const [isRecipeFormVisible, setIsRecipeFormVisible] = useState(false)
-
-  const [recipeTitle, setRecipeTitle] = useState('');
-  const [quantity, setQuantity] = useState('');
-
-  const [recipeIngredient, setRecipeIngredient] = useState('');
-
-  const [instructions, setRecipeInstructionss] = useState('');
-
-  const [recipeListItemIngriedents, setRecipeListItemIngriedents] = useState({ ingredients: [] });
-
-  // Fetch recipes from the backend
-  // Use useEffect to run the fetch when the component mounts
-  // Use fetch to get the data from the backend
-  // Use setRecipes to update the state with the fetched data
-  // Use setLoading to update the loading state to false after fetching data
-  // Handle errors with a catch block
-  // Display a loading message while the data is being fetched
-  useEffect(() => {
-    fetch('http://localhost:3000/recipes')
-      .then(response => response.json())
-      .then(data => {
-        setRecipes(data.data);
-      })
-      .catch(error => logger.error('Error fetching recipes:', error))
-  }, [])
-
-  const handleClear = () => {
-    setInputString(''); // Clear the input
-  };
-
-
-  const IngredientInputHandler = e => { setInputString(e.target.value); }
-
-  const IngredientsClickHandler = (e, value) => {
-    e.preventDefault();
-    setIngredients(prev => [...prev, value])
-    handleClear();
-  }
-
-  const toggleRecipeForm = () => {
-    setIsRecipeFormVisible(!isRecipeFormVisible);
-  };
-
-  const handleRecipeTitleChange = (e) => {
-    setRecipeTitle(e.target.value);
-  };
-
-
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
-  }
-
-  const handleIngredientChange = (e) => {
-    setRecipeIngredient(e.target.value);
-  }
-
-  const handleInstructionsChange = (e) => {
-    setRecipeInstructionss(e.target.value);
+  const updateRecipes = (data) => {
+    setRecipes(data);
+    setRefreshKey(oldKey => oldKey + 1); // Increment the refresh key to trigger re-render
   }
 
   const handleRecipeFormSubmit = ({ title, instructions }) => {
-    console.log(data)
-    // hardcoded values for prepTime, cookTime, servings, and image
-    // In a real application, you would get these values from the form inputs
-    // or generate them as needed
-    // You might also want to add validation and error handling here
-    // For simplicity, we'll skip those steps in this example
-    // Create a new recipe object
-    logger.info('Submitting recipe:', { title, instructions });
     if (!title || !instructions) {
       logger.warn('Please fill in all required fields.');
       return;
@@ -110,65 +41,15 @@ function App() {
       .catch((error) => {
         logger.error('Error:', error);
       });
-    // Here you would typically send the newRecipe to your backend API
-    // For now, we'll just update the state to include the new recipe
-    // You can use fetch or axios to send a POST request to your backend
-    // For example:
-    //setRecipes(prevRecipes => [...prevRecipes, newRecipe]);
-    setRecipeTitle('');
-    setQuantity('');
-    setRecipeIngredient('');
-    setRecipeInstructionss('');
   };
 
-  const handleIngriendientListChange = (newIngredients) => {
-    setRecipeListItemIngriedents({ ingredients: newIngredients });
-    console.log('Updated ingredients:', recipeListItemIngriedents);
-  }
-
-  const handleIngridientListPageClickSearchHandler = ({ title, ingredients }) => {
-    e.preventDefault(title, ingredients);
-    console.log(e);
-    // Here you would typically send the newRecipe to your backend API
-    // For now, we'll just update the state to include the new recipe
-    // setIngredients(prev => [...prev, value])
-    // handleClear();
-  }
-  const favouriteRecipeHandler = (e) => {
-    const { id } = e.target.dataset;
-    fetch(`http://localhost:3000/recipes/favourite/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ favourite: true }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        const { recipe } = data;
-
-        setRecipes(prevRecipes => {
-          logger.info('Previous Recipes:', prevRecipes);
-          const updated = prevRecipes.map(r => r._id === recipe._id ? recipe : r);
-          logger.info('Updated Recipes:', updated);
-
-          return updated;
-        })
-      })
-
-      .catch((error) => {
-        logger.error('Error:', error);
-      });
-
-
-  };
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<Recipes data={recipes} isVisible={isRecipeFormVisible} formVisibleHandler={toggleRecipeForm} recipeFormTitleChangeHandler={handleRecipeTitleChange} recipeTitleData={recipeTitle} handleQuantityChangeHandler={handleQuantityChange} quantityData={quantity} handleIngredientChange={handleIngredientChange} ingredientData={recipeIngredient} instructionsHandler={handleInstructionsChange} instructionsData={instructions} handleRecipeFormSubmit={handleRecipeFormSubmit} recipeFavouriteHandler={favouriteRecipeHandler} />} />
+        <Route path="/recipes" element={<Recipes data={recipes} handleRecipeFormSubmit={handleRecipeFormSubmit} updateRecipes={updateRecipes} />} />
         <Route path="/recipe-box" element={<RecipeBox />} />
-        <Route path="/meal-planner" element={<MealPlanner onDebouncedChange={setRecipeIngredient} handler={IngredientInputHandler} ingredientListHandler={handleIngriendientListChange} submitHandler={IngredientsClickHandler} data={ingredients} inputString={inputString} ingriendientListClickHandler={handleIngridientListPageClickSearchHandler} />} />
+        <Route path="/meal-planner" element={<MealPlanner />} />
         <Route path="/about" element={<About />} />
       </Routes>
 
