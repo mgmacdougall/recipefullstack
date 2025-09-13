@@ -21,8 +21,8 @@ function RecipeForm({ handleRecipeFormSubmit }) {
     const onSubmit = (e) => {
         e.preventDefault();
         console.log({ title: recipeTitle, instructions: instructions });
-        //handleRecipeFormSubmit({ title: recipeTitle, instructions: instructions });
-        alert('Form submitted! Check console for details.');
+        handleRecipeFormSubmit({ title: recipeTitle, instructions: instructions });
+        // alert('Form submitted! Check console for details.');
         handleClear();
     }
 
